@@ -1,0 +1,13 @@
+C:\Users\User\source\repos\paint\bin\Debug\paint.exe.config
+C:\Users\User\source\repos\paint\bin\Debug\paint.exe
+C:\Users\User\source\repos\paint\bin\Debug\paint.pdb
+C:\Users\User\source\repos\paint\obj\Debug\paint.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\paint\obj\Debug\paint.Form1.resources
+C:\Users\User\source\repos\paint\obj\Debug\paint.Form2.resources
+C:\Users\User\source\repos\paint\obj\Debug\paint.Properties.Resources.resources
+C:\Users\User\source\repos\paint\obj\Debug\paint.csproj.GenerateResource.cache
+C:\Users\User\source\repos\paint\obj\Debug\paint.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\paint\obj\Debug\paint.exe
+C:\Users\User\source\repos\paint\obj\Debug\paint.pdb
+C:\Users\User\source\repos\paint\obj\Debug\paint.lineWidthDialog.resources
+C:\Users\User\source\repos\paint\obj\Debug\paint.FormSize.resources
