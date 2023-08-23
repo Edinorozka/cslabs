@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace paint
@@ -13,11 +8,12 @@ namespace paint
     public partial class Form2 : Form
     {
         public List<Figure> array = new List<Figure>();
-        private MakeRectangle workfield;
+        public List<Figure> changeArray = new List<Figure>();
         private string text = "";
         private List<Point> points;
-        public bool saveFlag = false, savefilecreate = false, openfile = false;
-        private int x, y, xw = 0, yw = 0;
+        public bool saveFlag = false, savefilecreate = false, openfile = false, checkflag = false;
+        private int x, y, xw = 0, yw = 0, x2, y2;
+        private bool controlPressed = false;
         Graphics g, g2;
         Bitmap bm;
 
@@ -33,16 +29,8 @@ namespace paint
             g = picture.CreateGraphics();
             picture.Width = Width;
             picture.Height = Height;
-            if (openfile)
-            {
-                workfield = new MakeRectangle(array[0].point1, array[0].point2, array[0].color, array[0].Cbackground, 0);
-                Width = array[0].point2.X;
-                Height = array[0].point2.Y;
-            }
-        AutoScrollMinSize = Size;
-        }
-
-
+            AutoScrollMinSize = Size;
+        }  
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -68,19 +56,19 @@ namespace paint
 
         private void Form2_Paint(object sender, PaintEventArgs e)
         {
-            if (array.Count == 0)
-            {
-                Point pointf1 = new Point(0, 0),
-                      pointf2 = new Point(Width, Height);
-                workfield = new MakeRectangle(pointf1, pointf2, Color.White, new Color(), 0);
-                array.Add(workfield);
-            }
-
             foreach (Figure f in array)
             {
                 f.Draw(e.Graphics);
             }
+
+            foreach (Figure f in changeArray)
+            {
+                f.Hide(e.Graphics);
+                f.DrawDash(e.Graphics);
             }
+
+            if (changeArray.Count == 0) ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = false;
+        }
 
             private void Form2_MouseDown(object sender, MouseEventArgs e)
             {
@@ -88,6 +76,24 @@ namespace paint
                 {
                     x = e.X;
                     y = e.Y;
+
+                if (Data.figures == Data.Figures.change)
+                {
+                    foreach (Figure f in changeArray)
+                    {
+                        Rectangle r = Rectangle.FromLTRB(x, y, x, y);
+                        if (f.Check(r) == true)
+                        {
+                            checkflag = true;
+                        }
+                    }
+                }
+                else checkflag = false;
+
+                if (Data.figures != Data.Figures.change || !checkflag) changeArray.Clear();
+
+                if (!checkflag)
+                {
                     switch (Data.figures)
                     {
                         case Data.Figures.rectangle:
@@ -107,7 +113,14 @@ namespace paint
                         case Data.Figures.text:
                             Data.figure = new MakeText(new Point(x, y), new Point(x, y), text, Data.color, Data.font);
                             break;
+                        case Data.Figures.change:
+                            Data.figure = new MakeRectangle(new Point(x, y), new Point(x, y), Color.Black, new Color(), 1);
+                            break;
                     }
+                } else
+                {
+                    x2 = x; y2 = y;
+                }
                     textBox1.Visible = false;
                 }
             }
@@ -125,6 +138,26 @@ namespace paint
                     points.Add(new Point(x1, y1));
                     Data.figure.points = points;
                     Data.figure.Draw(g2);
+                }
+                else if (Data.figures == Data.Figures.change && checkflag) {
+                    int w = x1 - x2, h = y1 - y2;
+                    foreach (Figure f in changeArray)
+                    {
+                        if (f.checkZone(picture.Location, picture.Width, picture.Height))
+                        {
+                            f.Hide(g2);
+                            f.Change(w, h);
+                            f.DrawDash(g2);
+                        }
+                        else
+                        {
+                            f.Hide(g2);
+                            f.Change(-w, -h);
+                            f.DrawDash(g2);
+                        }
+                    }
+                    x2 = x1;
+                    y2 = y1;
                 } else
                 {
                     if (xw != 0 && yw != 0)
@@ -147,8 +180,7 @@ namespace paint
             if (e.Button == MouseButtons.Left)
                 {
                 int xf = e.X, yf = e.Y;
-                if (workfield.point1.X < xf && workfield.point1.Y < yf &&
-                        workfield.point2.X > xf && workfield.point2.Y > yf)
+                if (Data.figure.checkZone(picture.Location, picture.Width, picture.Height))
                 {
                     if (Data.figures == Data.Figures.line)
                     {
@@ -167,6 +199,26 @@ namespace paint
                         textBox1.Visible = true;
                         textBox1.Focus();
                     }
+                    else if (Data.figures == Data.Figures.change)
+                    {
+                        Rectangle changeZone = new Rectangle();
+                        if (!checkflag)
+                        {
+                            changeZone = Rectangle.FromLTRB(Math.Min(x, xf), Math.Min(y, yf),
+                                                            Math.Max(x, xf), Math.Max(y, yf));
+                        }
+                        if (changeZone.Width < 10 && changeZone.Height < 10)
+                        {
+                            foreach (Figure f in array)
+                            {
+                                if (f.Check(changeZone) == true) changeArray = new List<Figure>{ f };
+                            }
+                        }
+                        else
+                        {
+                            foreach (Figure f in array) if (f.Check(changeZone) == true) changeArray.Add(f);
+                        }
+                    }
                     else
                     {
                         Data.figure.Draw(g);
@@ -174,9 +226,10 @@ namespace paint
                         g.DrawImage(bm, 0, 0);
                     }
                     saveFlag = true;
-                    
+                    checkflag = false;
                 }
                 xw = 0; yw = 0;
+                if (changeArray.Count != 0) ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = true;
                 picture.Invalidate();
             }
         }
@@ -190,8 +243,76 @@ namespace paint
                 Data.figure.Draw(g);
                 array.Add(Data.figure);
                 g.DrawImage(bm, 0, 0);
-                picture.Invalidate();
             }
+        }
+
+        private void Form2_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.ControlKey:
+                    controlPressed = true;
+                    break;
+            }
+        }
+
+        private void Form2_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    changeArray.Clear();
+                    break;
+                case Keys.Delete:
+                    int j = 0;
+                    for (int i = 0; i < changeArray.Count; i++)
+                    {
+                        while(j < array.Count)
+                        {
+                            if (changeArray[i] == array[j] && i != 10000)
+                            {
+                                array.RemoveAt(j);
+                                changeArray.RemoveAt(i);
+                                i = 0;
+                                j = 0;
+                            }
+                            else
+                            {
+                                
+                                j++;
+                            }
+                            if (changeArray.Count == 0) break;
+                        }
+                    }
+                    break;
+                case Keys.ControlKey:
+                    controlPressed = false;
+                    break;
+                case Keys.C:
+                    if (controlPressed == true && changeArray.Count > 0)
+                    {
+                        Clipboard.SetDataObject(changeArray);
+                    }
+                    break;
+                case Keys.V:
+                    if (controlPressed == true)
+                    {
+                        IDataObject data = Clipboard.GetDataObject();
+                        Console.WriteLine(data.GetDataPresent(typeof(List<Figure>)));
+                        if (data.GetDataPresent(typeof(string)))
+                        {
+                            Console.WriteLine((string)data.GetData(typeof(string)));
+                        }
+                        if (data.GetDataPresent(typeof(List<Figure>)))
+                        {
+                            array = (List<Figure>)data.GetData(typeof(List<Figure>));
+                            Console.WriteLine(array.Count);
+                        }
+                        else Console.WriteLine("null");
+                    }
+                    break;
+            }
+            picture.Invalidate();
         }
     }
 }

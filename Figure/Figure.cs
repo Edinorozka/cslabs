@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace paint
 {
@@ -54,5 +51,8 @@ namespace paint
         public abstract void Draw(Graphics g);
         public abstract void DrawDash(Graphics g);
         public abstract void Hide(Graphics g);
+        public abstract bool Check(Rectangle r);
+        public abstract void Change(int width, int height);
+        public abstract bool checkZone(Point p,int width, int height);
     }
 }

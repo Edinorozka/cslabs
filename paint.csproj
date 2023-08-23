@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SaveClass.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Figure\Figure.cs" />
     <Compile Include="Figure\MakeEllipse.cs" />

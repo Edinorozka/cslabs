@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace paint
@@ -37,23 +31,27 @@ namespace paint
 
         public void save(Form2 f)
         {
-            Console.Write(this.MdiChildren.Length.ToString());
+            SaveClass save = new SaveClass();
+            save.set_Save(f.array, xsize, ysize);
+            Console.Write(MdiChildren.Length.ToString());
             BinaryFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(ActiveMdiChild.Text, FileMode.Create, FileAccess.Write, FileShare.None);
-            formatter.Serialize(stream, f.array);
+            formatter.Serialize(stream, save);
             f.saveFlag = false;
             stream.Close();
         }
 
         public bool saveAs(Form2 f)
         {
+            SaveClass save = new SaveClass();
+            save.set_Save(f.array, xsize, ysize);
             saveFileDialog1.InitialDirectory = Environment.CurrentDirectory;
             saveFileDialog1.Filter = "BIN(*.BIN)|*bin|All files (*.*)|*.*";
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 Stream stream = new FileStream(saveFileDialog1.FileName, FileMode.Create, FileAccess.Write, FileShare.None);
-                formatter.Serialize(stream, f.array);
+                formatter.Serialize(stream, save);
                 f.savefilecreate = true;
                 f.saveFlag = false;
                 f.Text = saveFileDialog1.FileName;
@@ -82,11 +80,13 @@ namespace paint
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 Stream stream = new FileStream(openFileDialog1.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+                SaveClass save = (SaveClass)formatter.Deserialize(stream);
                 Form f = new Form2();
                 f.MdiParent = this;
                 f.Text = openFileDialog1.FileName;
-                ((Form2)f).array = (List<Figure>)formatter.Deserialize(stream);
-                ((Form2)f).openfile = true;
+                ((Form2)f).array = save.get_Save_mas();
+                f.Width = save.get_Save_wight();
+                f.Height = save.get_Save_height();
                 f.Show();
                 saveToolStripMenuItem.Enabled = true;
                 saveAsToolStripMenuItem.Enabled = true;
@@ -149,6 +149,26 @@ namespace paint
             optionsTool((Form2)ActiveMdiChild);
         }
 
+        private void Delete(Form2 f)
+        {
+            for (int i = 0; i < f.array.Count; i++)
+            {
+                for (int j = 0; j < f.changeArray.Count; j++)
+                {
+                    if (f.changeArray[j] == f.array[i])
+                    {
+                        f.array.RemoveAt(i);
+                        f.changeArray.RemoveAt(j);
+                    }
+                }
+            }
+            f.picture.Invalidate();
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Delete((Form2)ActiveMdiChild);
+        }
 
         private void textSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -180,21 +200,29 @@ namespace paint
             lineToolStripMenuItem.Checked = false;
             textToolStripMenuItem.Checked = false;
             ActiveFigureLabel.Text = "Rectangle";
+            ColorIs.Visible = true;
+            ColorLabel.Visible = true;
             background.Visible = true;
             BackgroundLabel.Visible = true;
             FontTextLabel.Visible = false;
             TextWidthLabel.Visible = false;
+            LineWidthLabel.Visible = true;
+            ChangeButton.CheckState = CheckState.Unchecked;
             RectangleButton.CheckState = CheckState.Checked;
             EllipseButton.CheckState = CheckState.Unchecked;
             StraightLineButton.CheckState = CheckState.Unchecked;
             lineButton.CheckState = CheckState.Unchecked;
             TextButton.CheckState = CheckState.Unchecked;
             LineBacgroundButton.Visible = true;
+            changeToolStripMenuItem.Checked = false;
         }
 
         private void ellipseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.figures = Data.Figures.ellipse;
+            ColorIs.Visible = true;
+            ColorLabel.Visible = true;
+            LineWidthLabel.Visible = true;
             backgroundColorToolStripMenuItem.Visible = true;
             rectangleToolStripMenuItem.Checked = false;
             ellipseToolStripMenuItem.Checked = true;
@@ -206,17 +234,22 @@ namespace paint
             BackgroundLabel.Visible = true;
             FontTextLabel.Visible = false;
             TextWidthLabel.Visible = false;
+            ChangeButton.CheckState = CheckState.Unchecked;
             RectangleButton.CheckState = CheckState.Unchecked;
             EllipseButton.CheckState = CheckState.Checked;
             StraightLineButton.CheckState = CheckState.Unchecked;
             lineButton.CheckState = CheckState.Unchecked;
             TextButton.CheckState = CheckState.Unchecked;
             LineBacgroundButton.Visible = true;
+            changeToolStripMenuItem.Checked = false;
         }
 
         private void straightLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.figures = Data.Figures.straight;
+            ColorIs.Visible = true;
+            ColorLabel.Visible = true;
+            LineWidthLabel.Visible = true;
             backgroundColorToolStripMenuItem.Visible = false;
             rectangleToolStripMenuItem.Checked = false;
             ellipseToolStripMenuItem.Checked = false;
@@ -228,17 +261,22 @@ namespace paint
             BackgroundLabel.Visible = false;
             FontTextLabel.Visible = false;
             TextWidthLabel.Visible = false;
+            ChangeButton.CheckState = CheckState.Unchecked;
             RectangleButton.CheckState = CheckState.Unchecked;
             EllipseButton.CheckState = CheckState.Unchecked;
             StraightLineButton.CheckState = CheckState.Checked;
             lineButton.CheckState = CheckState.Unchecked;
             TextButton.CheckState = CheckState.Unchecked;
             LineBacgroundButton.Visible = false;
+            changeToolStripMenuItem.Checked = false;
         }
 
         private void lineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.figures = Data.Figures.line;
+            ColorIs.Visible = true;
+            ColorLabel.Visible = true;
+            LineWidthLabel.Visible = true;
             backgroundColorToolStripMenuItem.Visible = false;
             rectangleToolStripMenuItem.Checked = false;
             ellipseToolStripMenuItem.Checked = false;
@@ -250,19 +288,50 @@ namespace paint
             BackgroundLabel.Visible = false;
             FontTextLabel.Visible = false;
             TextWidthLabel.Visible = false;
+            ChangeButton.CheckState = CheckState.Unchecked;
             RectangleButton.CheckState = CheckState.Unchecked;
             EllipseButton.CheckState = CheckState.Unchecked;
             StraightLineButton.CheckState = CheckState.Unchecked;
             lineButton.CheckState = CheckState.Checked;
             TextButton.CheckState = CheckState.Unchecked;
             LineBacgroundButton.Visible = false;
+            changeToolStripMenuItem.Checked = false;
+        }
+
+        private void changeButton_Click(object sender, EventArgs e)
+        {
+            Data.figures = Data.Figures.change;
+            ChangeButton.CheckState = CheckState.Checked;
+            RectangleButton.CheckState = CheckState.Unchecked;
+            EllipseButton.CheckState = CheckState.Unchecked;
+            StraightLineButton.CheckState = CheckState.Unchecked;
+            lineButton.CheckState = CheckState.Unchecked;
+            TextButton.CheckState = CheckState.Unchecked;
+            ActiveFigureLabel.Text = "Change";
+            ColorIs.Visible = false;
+            ColorLabel.Visible = false;
+            background.Visible = false;
+            BackgroundLabel.Visible = false;
+            FontTextLabel.Visible = false;
+            TextWidthLabel.Visible = false;
+            LineWidthLabel.Visible = false;
+            rectangleToolStripMenuItem.Checked = false;
+            ellipseToolStripMenuItem.Checked = false;
+            straightLineToolStripMenuItem.Checked = false;
+            lineToolStripMenuItem.Checked = false;
+            textToolStripMenuItem.Checked = false;
+            changeToolStripMenuItem.Checked = true;
         }
 
         private void textToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.figures = Data.Figures.text;
+            ColorIs.Visible = true;
+            ColorLabel.Visible = true;
             LineWidthLabel.Visible = false;
+            LineWidthLabel.Visible = true;
             backgroundColorToolStripMenuItem.Visible = false;
+            changeToolStripMenuItem.Checked = false;
             LineBacgroundButton.Visible = false;
             background.Visible = false;
             BackgroundLabel.Visible = false;
@@ -274,6 +343,7 @@ namespace paint
             FontTextLabel.Visible = true;
             TextWidthLabel.Visible = true;
             ActiveFigureLabel.Text = "Text";
+            ChangeButton.CheckState = CheckState.Unchecked;
             RectangleButton.CheckState = CheckState.Unchecked;
             EllipseButton.CheckState = CheckState.Unchecked;
             StraightLineButton.CheckState = CheckState.Unchecked;
