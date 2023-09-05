@@ -54,5 +54,6 @@ namespace paint
         public abstract bool Check(Rectangle r);
         public abstract void Change(int width, int height);
         public abstract bool checkZone(Point p,int width, int height);
+        public abstract void ChangeZero();
     }
 }

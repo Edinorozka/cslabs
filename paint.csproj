@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClipboardMetafileHelper.cs" />
     <Compile Include="SaveClass.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Figure\Figure.cs" />
@@ -80,6 +81,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToolsComands.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

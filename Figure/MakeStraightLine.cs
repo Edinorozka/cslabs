@@ -52,5 +52,14 @@ namespace paint
                 Math.Max(point1.X, point2.X) < p.X + width && Math.Max(point1.Y, point2.Y) < p.Y + height) return true;
             else return false;
         }
+
+        public override void ChangeZero()
+        {
+            int zeroX = Math.Min(point1.X, point2.X) - 1, zeroY = Math.Min(point1.Y, point2.Y) - 1;
+            point2.X -= zeroX;
+            point2.Y -= zeroY;
+            point1.X -= zeroX;
+            point1.Y -= zeroY;
+        }
     }
 }

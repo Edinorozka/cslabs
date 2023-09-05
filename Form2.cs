@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace paint
@@ -13,7 +14,6 @@ namespace paint
         private List<Point> points;
         public bool saveFlag = false, savefilecreate = false, openfile = false, checkflag = false;
         private int x, y, xw = 0, yw = 0, x2, y2;
-        private bool controlPressed = false;
         Graphics g, g2;
         Bitmap bm;
 
@@ -22,6 +22,11 @@ namespace paint
             InitializeComponent();
             picture.Width = Width;
             picture.Height = Height;
+        }
+
+        public Graphics get_g()
+        {
+            return g;
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -114,7 +119,7 @@ namespace paint
                             Data.figure = new MakeText(new Point(x, y), new Point(x, y), text, Data.color, Data.font);
                             break;
                         case Data.Figures.change:
-                            Data.figure = new MakeRectangle(new Point(x, y), new Point(x, y), Color.Black, new Color(), 1);
+                            Data.figure = new MakeRectangle(new Point(x, y), new Point(x, y), Color.Black, Color.Empty, 1);
                             break;
                     }
                 } else
@@ -246,70 +251,12 @@ namespace paint
             }
         }
 
-        private void Form2_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.ControlKey:
-                    controlPressed = true;
-                    break;
-            }
-        }
-
         private void Form2_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.Enter:
                     changeArray.Clear();
-                    break;
-                case Keys.Delete:
-                    int j = 0;
-                    for (int i = 0; i < changeArray.Count; i++)
-                    {
-                        while(j < array.Count)
-                        {
-                            if (changeArray[i] == array[j] && i != 10000)
-                            {
-                                array.RemoveAt(j);
-                                changeArray.RemoveAt(i);
-                                i = 0;
-                                j = 0;
-                            }
-                            else
-                            {
-                                
-                                j++;
-                            }
-                            if (changeArray.Count == 0) break;
-                        }
-                    }
-                    break;
-                case Keys.ControlKey:
-                    controlPressed = false;
-                    break;
-                case Keys.C:
-                    if (controlPressed == true && changeArray.Count > 0)
-                    {
-                        Clipboard.SetDataObject(changeArray);
-                    }
-                    break;
-                case Keys.V:
-                    if (controlPressed == true)
-                    {
-                        IDataObject data = Clipboard.GetDataObject();
-                        Console.WriteLine(data.GetDataPresent(typeof(List<Figure>)));
-                        if (data.GetDataPresent(typeof(string)))
-                        {
-                            Console.WriteLine((string)data.GetData(typeof(string)));
-                        }
-                        if (data.GetDataPresent(typeof(List<Figure>)))
-                        {
-                            array = (List<Figure>)data.GetData(typeof(List<Figure>));
-                            Console.WriteLine(array.Count);
-                        }
-                        else Console.WriteLine("null");
-                    }
                     break;
             }
             picture.Invalidate();

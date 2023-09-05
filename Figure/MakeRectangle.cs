@@ -14,10 +14,10 @@ namespace paint
             pen.Width = lineWidth;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
                                                      Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
-            if (Cbackground != null)
+            if (Cbackground != Color.Empty)
             {
-                SolidBrush background = new SolidBrush(Cbackground);
-                g.FillRectangle(background, rectangle);
+                SolidBrush solidBrush = new SolidBrush(Cbackground);
+                g.FillRectangle(solidBrush, rectangle);
             }
             g.DrawRectangle(pen, rectangle);
         }
@@ -28,7 +28,12 @@ namespace paint
             dashpen.Width = lineWidth;
             dashpen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
-                                                     Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y)); 
+                                                     Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
+            if (Cbackground != Color.Empty)
+            {
+                SolidBrush solidBrush = new SolidBrush(Cbackground);
+                g.FillRectangle(solidBrush, rectangle);
+            }
             g.DrawRectangle(dashpen, rectangle);
         }
 
@@ -38,6 +43,11 @@ namespace paint
             pencl.Width = lineWidth;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
                                                      Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
+            if (Cbackground != Color.Empty)
+            {
+                SolidBrush background = new SolidBrush(Color.White);
+                g.FillRectangle(background, rectangle);
+            }
             g.DrawRectangle(pencl, rectangle);
         }
 
@@ -59,9 +69,17 @@ namespace paint
 
         public override bool checkZone(Point p, int width, int height)
         {
-            if (Math.Min(point1.X, point2.X) > p.X && Math.Min(point1.Y, point2.Y) > p.Y &&
-                Math.Max(point1.X, point2.X) < p.X + width && Math.Max(point1.Y, point2.Y) < p.Y + height) return true;
+            if (Math.Min(point1.X, point2.X) >= p.X && Math.Min(point1.Y, point2.Y) >= p.Y &&
+                Math.Max(point1.X, point2.X) <= p.X + width && Math.Max(point1.Y, point2.Y) <= p.Y + height) return true;
             else return false;
+        }
+
+        public override void ChangeZero()
+        {
+            point2.X = Math.Max(point1.X, point2.X) - Math.Min(point1.X, point2.X);
+            point2.Y = Math.Max(point1.Y, point2.Y) - Math.Min(point1.Y, point2.Y);
+            point1.X = 0;
+            point1.Y = 0;
         }
     }
 }

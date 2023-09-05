@@ -149,25 +149,29 @@ namespace paint
             optionsTool((Form2)ActiveMdiChild);
         }
 
-        private void Delete(Form2 f)
-        {
-            for (int i = 0; i < f.array.Count; i++)
-            {
-                for (int j = 0; j < f.changeArray.Count; j++)
-                {
-                    if (f.changeArray[j] == f.array[i])
-                    {
-                        f.array.RemoveAt(i);
-                        f.changeArray.RemoveAt(j);
-                    }
-                }
-            }
-            f.picture.Invalidate();
-        }
-
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Delete((Form2)ActiveMdiChild);
+            ToolsComands.Delete((Form2)ActiveMdiChild);
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolsComands.Copy((Form2)ActiveMdiChild);
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolsComands.Paste((Form2)ActiveMdiChild);
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolsComands.Cut((Form2)ActiveMdiChild);
+        }
+
+        private void copyInMetafileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolsComands.CopyInMetafile((Form2)ActiveMdiChild);
         }
 
         private void textSettingsToolStripMenuItem_Click(object sender, EventArgs e)

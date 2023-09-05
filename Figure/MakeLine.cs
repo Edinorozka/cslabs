@@ -66,9 +66,24 @@ namespace paint
         {
             foreach (Point point in points)
             {
-                if (point.X < p.X || point.Y < p.Y || point.X > p.X + width || point.Y > p.Y + height) return false;
+                if (point.X <= p.X || point.Y <= p.Y || point.X >= p.X + width || point.Y >= p.Y + height) return false;
             }
             return true;
+        }
+
+        public override void ChangeZero()
+        {
+            int ZeroX = 1000000000, ZeroY = 1000000000;
+            foreach (Point point in points)
+            {
+                ZeroX = Math.Min(ZeroX, point.X);
+                ZeroY = Math.Min(ZeroY, point.Y);
+            }
+            
+            for (int i = 0; i < points.Count; i++)
+            {
+                points[i] = new Point(points[i].X - ZeroX, points[i].Y - ZeroY);
+            }
         }
     }
 }

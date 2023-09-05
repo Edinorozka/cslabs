@@ -18,10 +18,10 @@ namespace paint
             pen.Width = lineWidth;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
                                                      Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
-            if (Cbackground != null)
+            if (Cbackground != Color.Empty)
             {
-                SolidBrush background = new SolidBrush(Cbackground);
-                g.FillEllipse(background, rectangle);
+                SolidBrush solidBrush = new SolidBrush(Cbackground);
+                g.FillEllipse(solidBrush, rectangle);
             }
             g.DrawEllipse(pen, rectangle);
         }
@@ -33,6 +33,11 @@ namespace paint
             dashpen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
                                                      Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
+            if (Cbackground != Color.Empty)
+            {
+                SolidBrush solidBrush = new SolidBrush(Cbackground);
+                g.FillEllipse(solidBrush, rectangle);
+            }
             g.DrawEllipse(dashpen, rectangle);
         }
 
@@ -42,6 +47,11 @@ namespace paint
             pencl.Width = lineWidth + 1;
             Rectangle rectangle = Rectangle.FromLTRB(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y),
                                                      Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
+            if (Cbackground != Color.Empty)
+            {
+                SolidBrush background = new SolidBrush(Color.White);
+                g.FillEllipse(background, rectangle);
+            }
             g.DrawEllipse(pencl, rectangle);
         }
 
@@ -63,9 +73,17 @@ namespace paint
 
         public override bool checkZone(Point p, int width, int height)
         {
-            if (Math.Min(point1.X, point2.X) > p.X && Math.Min(point1.Y, point2.Y) > p.Y &&
-                Math.Max(point1.X, point2.X) < p.X + width && Math.Max(point1.Y, point2.Y) < p.Y + height) return true;
+            if (Math.Min(point1.X, point2.X) >= p.X && Math.Min(point1.Y, point2.Y) >= p.Y &&
+                Math.Max(point1.X, point2.X) <= p.X + width && Math.Max(point1.Y, point2.Y) <= p.Y + height) return true;
             else return false;
+        }
+
+        public override void ChangeZero()
+        {
+            point2.X = Math.Max(point1.X, point2.X) - Math.Min(point1.X, point2.X);
+            point2.Y = Math.Max(point1.Y, point2.Y) - Math.Min(point1.Y, point2.Y);
+            point1.X = 0;
+            point1.Y = 0;
         }
     }
 }
