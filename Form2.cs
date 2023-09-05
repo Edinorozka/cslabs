@@ -55,6 +55,11 @@ namespace paint
                 ((Form1)ParentForm).saveAsToolStripMenuItem.Enabled = false;
                 ((Form1)ParentForm).SaveAsButton.Enabled = false;
                 ((Form1)ParentForm).SaveButton.Enabled = false;
+                ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).copyToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).pasteToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).cutToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).copyInMetafileToolStripMenuItem.Enabled = false;
             }
             saveFlag = false;
         }
@@ -72,7 +77,14 @@ namespace paint
                 f.DrawDash(e.Graphics);
             }
 
-            if (changeArray.Count == 0) ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = false;
+            if (changeArray.Count == 0)
+            {
+                ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).copyToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).pasteToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).cutToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).copyInMetafileToolStripMenuItem.Enabled = false;
+            }
         }
 
             private void Form2_MouseDown(object sender, MouseEventArgs e)
@@ -234,7 +246,14 @@ namespace paint
                     checkflag = false;
                 }
                 xw = 0; yw = 0;
-                if (changeArray.Count != 0) ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = true;
+                if (changeArray.Count != 0)
+                {
+                    ((Form1)ParentForm).deleteToolStripMenuItem.Enabled = true;
+                    ((Form1)ParentForm).copyToolStripMenuItem.Enabled = true;
+                    ((Form1)ParentForm).pasteToolStripMenuItem.Enabled = true;
+                    ((Form1)ParentForm).cutToolStripMenuItem.Enabled = true;
+                    ((Form1)ParentForm).copyInMetafileToolStripMenuItem.Enabled = true;
+                }
                 picture.Invalidate();
             }
         }
