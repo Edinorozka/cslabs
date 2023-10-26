@@ -3,16 +3,16 @@ using System.Windows.Forms;
 
 namespace paint
 {
-    public partial class lineWidthDialog : Form
+    public partial class GridDistanceDialog : Form
     {
-        public lineWidthDialog()
+        public GridDistanceDialog()
         {
             InitializeComponent();
         }
 
-        public int width()
+        public int Grid()
         {
-            if (comboBox1.Text == "") return 1;
+            if (comboBox1.Text == "") return 10;
             else return Convert.ToInt32(comboBox1.Text);
         }
     }

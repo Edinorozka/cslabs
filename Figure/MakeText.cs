@@ -67,5 +67,34 @@ namespace paint
             point1.X = 0;
             point1.Y = 0;
         }
+
+        public override void GridChange()
+        {
+            int i = 0, j = 0;
+            Point p1 = new Point(Math.Min(point1.X, point2.X), Math.Min(point1.Y, point2.Y)),
+                  p2 = new Point(Math.Max(point1.X, point2.X), Math.Max(point1.Y, point2.Y));
+            while ((p1.X + i) % Data.gridDistance != 0) i++;
+            while ((p1.X - j) % Data.gridDistance != 0) j++;
+            if (i >= j) point1.X -= j;
+            else point1.X += i;
+
+            i = 0; j = 0;
+            while ((p1.Y + i) % Data.gridDistance != 0) i++;
+            while ((p1.Y - j) % Data.gridDistance != 0) j++;
+            if (i >= j) point1.Y -= j;
+            else point1.Y += i;
+
+            i = 0; j = 0;
+            while ((p2.X + i) % Data.gridDistance != 0) i++;
+            while ((p2.X - j) % Data.gridDistance != 0) j++;
+            if (i >= j) point2.X -= j;
+            else point2.X += i;
+
+            i = 0; j = 0;
+            while ((p2.Y + i) % Data.gridDistance != 0) i++;
+            while ((p2.Y - j) % Data.gridDistance != 0) j++;
+            if (i >= j) point2.Y -= j;
+            else point2.Y += i;
+        }
     }
 }

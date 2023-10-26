@@ -11,3 +11,4 @@ C:\Users\User\source\repos\paint\obj\Debug\paint.exe
 C:\Users\User\source\repos\paint\obj\Debug\paint.pdb
 C:\Users\User\source\repos\paint\obj\Debug\paint.lineWidthDialog.resources
 C:\Users\User\source\repos\paint\obj\Debug\paint.FormSize.resources
+C:\Users\User\source\repos\paint\obj\Debug\paint.GridDistanceDialog.resources

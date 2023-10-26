@@ -64,7 +64,7 @@ namespace paint
 
         public override bool checkZone(Point p, int width, int height)
         {
-            foreach (Point point in points)
+            foreach (PointF point in points)
             {
                 if (point.X <= p.X || point.Y <= p.Y || point.X >= p.X + width || point.Y >= p.Y + height) return false;
             }
@@ -74,15 +74,39 @@ namespace paint
         public override void ChangeZero()
         {
             int ZeroX = 1000000000, ZeroY = 1000000000;
-            foreach (Point point in points)
+            foreach (PointF point in points)
             {
-                ZeroX = Math.Min(ZeroX, point.X);
-                ZeroY = Math.Min(ZeroY, point.Y);
+                ZeroX = (int)Math.Min(ZeroX, point.X);
+                ZeroY = (int)Math.Min(ZeroY, point.Y);
             }
             
             for (int i = 0; i < points.Count; i++)
             {
                 points[i] = new Point(points[i].X - ZeroX, points[i].Y - ZeroY);
+            }
+        }
+
+        public override void GridChange()
+        {
+            Point startPoint = points[0];
+
+            int i = 0, j = 0, z, x, y;
+            while ((points[0].X + i) % Data.gridDistance != 0) i++;
+            while ((points[0].X - j) % Data.gridDistance != 0) j++;
+            if (i >= j) z = points[0].X - j;
+            else z = points[0].X + i;
+
+            i = 0; j = 0;
+            while ((points[0].Y + i) % Data.gridDistance != 0) i++;
+            while ((points[0].Y - j) % Data.gridDistance != 0) j++;
+            points[0] = i >= j ? new Point(z, points[0].Y - j) : new Point(z, points[0].Y + i);
+
+            x = startPoint.X - points[0].X;
+            y = startPoint.Y - points[0].Y;
+
+            for (int k = 1; k < points.Count; k++)
+            {
+                points[k] = new Point(points[k].X + x, points[k].Y + y);
             }
         }
     }

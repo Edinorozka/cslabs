@@ -174,6 +174,14 @@ namespace paint
             ToolsComands.CopyInMetafile((Form2)ActiveMdiChild);
         }
 
+        private void getGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(MdiChildren.Length != 0)
+            {
+                foreach (Form2 f in MdiChildren) ToolsComands.Grid(f);
+            }
+        }
+
         private void textSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!textSettingsToolStripMenuItem.Checked)
@@ -192,6 +200,30 @@ namespace paint
 
             FontTextLabel.Text = Data.font.Name;
             TextWidthLabel.Text = "Text width - " + Data.font.Size;
+        }
+
+        private void gridSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridDistanceDialog gdd = new GridDistanceDialog();
+            if (gdd.ShowDialog() == DialogResult.Cancel) return;
+            Data.gridDistance = gdd.Grid();
+            if (MdiChildren.Length != 0)
+            {
+                foreach (Form2 f in MdiChildren) ToolsComands.Grid(f);
+            }
+        }
+
+        private void snapToGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Data.snapToGrig = snapToGridToolStripMenuItem.Checked;
+        }
+
+        private void gridAlignmentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MdiChildren.Length != 0)
+            {
+                ToolsComands.GridAlignment((Form2)ActiveMdiChild);
+            }
         }
 
         private void rectangleToolStripMenuItem_Click(object sender, EventArgs e)

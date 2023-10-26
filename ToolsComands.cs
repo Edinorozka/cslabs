@@ -99,5 +99,19 @@ namespace paint
             f.get_g().Dispose();
             f.picture.Invalidate();
         }
+
+        public static void Grid(Form2 f)
+        {
+            f.picture.Invalidate();
+        }
+
+        public static void GridAlignment(Form2 f)
+        {
+            foreach(Figure a in f.array)
+            {
+                a.GridChange();
+            }
+            f.picture.Invalidate();
+        }
     }
 }

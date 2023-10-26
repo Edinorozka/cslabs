@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace paint
@@ -12,8 +11,9 @@ namespace paint
         public List<Figure> changeArray = new List<Figure>();
         private string text = "";
         private List<Point> points;
-        public bool saveFlag = false, savefilecreate = false, openfile = false, checkflag = false;
-        private int x, y, xw = 0, yw = 0, x2, y2;
+        public bool saveFlag = false, savefilecreate = false;
+        private bool checkflag = false;
+        private int x, y, xw = 0, yw = 0, x2, y2, gd = Data.gridDistance;
         Graphics g, g2;
         Bitmap bm;
 
@@ -29,12 +29,34 @@ namespace paint
             return g;
         }
 
+        private int Grid_change_x(int x)
+        {
+            int i = 0, j = 0;
+            while ((x + i) % Data.gridDistance != 0) i++;
+            while ((x - j) % Data.gridDistance != 0) j++;
+            if (i >= j) x -= j;
+            else x += i;
+
+            return x;
+        }
+
+        private int Grid_change_y(int y)
+        {
+            int i = 0, j = 0;
+            while ((y + i) % Data.gridDistance != 0) i++;
+            while ((y - j) % Data.gridDistance != 0) j++;
+            if (i >= j) y -= j;
+            else y += i;
+
+            return y;
+        }
+
         private void Form2_Load(object sender, EventArgs e)
         {
-            g = picture.CreateGraphics();
             picture.Width = Width;
             picture.Height = Height;
             AutoScrollMinSize = Size;
+            g = picture.CreateGraphics();
         }  
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
@@ -64,8 +86,24 @@ namespace paint
             saveFlag = false;
         }
 
+        private void MakeGrid(Graphics g)
+        {
+            if (((Form1)ParentForm).getGridToolStripMenuItem.Checked)
+            {
+                while (gd < Width)
+                {
+                    g.DrawLine(new Pen(Color.LightGray), new Point(gd, 0), new Point(gd, Height));
+                    g.DrawLine(new Pen(Color.LightGray), new Point(0, gd), new Point(Width, gd));
+                    gd += Data.gridDistance;
+                }
+                gd = Data.gridDistance;
+            }
+        }
+
         private void Form2_Paint(object sender, PaintEventArgs e)
         {
+            MakeGrid(e.Graphics);
+
             foreach (Figure f in array)
             {
                 f.Draw(e.Graphics);
@@ -91,8 +129,13 @@ namespace paint
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    x = e.X;
-                    y = e.Y;
+                x = e.X;
+                y = e.Y;
+                if (Data.snapToGrig)
+                {
+                    x = Grid_change_x(x);
+                    y = Grid_change_y(y);
+                }
 
                 if (Data.figures == Data.Figures.change)
                 {
@@ -148,8 +191,14 @@ namespace paint
             {
                 bm = new Bitmap(Width, Height);
                 g2 = Graphics.FromImage(bm);
+                MakeGrid(g2);
                 foreach (Figure f in array) f.Draw(g2);
                 int x1 = e.X, y1 = e.Y;
+                if (Data.snapToGrig)
+                {
+                    x1 = Grid_change_x(x1);
+                    y1 = Grid_change_y(y1);
+                }
                 if (Data.figures == Data.Figures.line)
                 {
                     points.Add(new Point(x1, y1));
@@ -197,6 +246,11 @@ namespace paint
             if (e.Button == MouseButtons.Left)
                 {
                 int xf = e.X, yf = e.Y;
+                if (Data.snapToGrig)
+                {
+                    xf = Grid_change_x(xf);
+                    yf = Grid_change_y(yf);
+                }
                 if (Data.figure.checkZone(picture.Location, picture.Width, picture.Height))
                 {
                     if (Data.figures == Data.Figures.line)

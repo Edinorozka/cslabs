@@ -56,6 +56,11 @@ namespace paint
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyInMetafileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridAlignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
@@ -263,7 +268,8 @@ namespace paint
             this.copyToolStripMenuItem,
             this.pasteToolStripMenuItem,
             this.cutToolStripMenuItem,
-            this.copyInMetafileToolStripMenuItem});
+            this.copyInMetafileToolStripMenuItem,
+            this.gridToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -320,6 +326,47 @@ namespace paint
             this.copyInMetafileToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.copyInMetafileToolStripMenuItem.Text = "Copy in Metafile";
             this.copyInMetafileToolStripMenuItem.Click += new System.EventHandler(this.copyInMetafileToolStripMenuItem_Click);
+            // 
+            // gridToolStripMenuItem
+            // 
+            this.gridToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getGridToolStripMenuItem,
+            this.gridAlignmentToolStripMenuItem,
+            this.snapToGridToolStripMenuItem,
+            this.gridSettingsToolStripMenuItem});
+            this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
+            this.gridToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.gridToolStripMenuItem.Text = "Grid";
+            // 
+            // getGridToolStripMenuItem
+            // 
+            this.getGridToolStripMenuItem.CheckOnClick = true;
+            this.getGridToolStripMenuItem.Name = "getGridToolStripMenuItem";
+            this.getGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getGridToolStripMenuItem.Text = "Get grid";
+            this.getGridToolStripMenuItem.Click += new System.EventHandler(this.getGridToolStripMenuItem_Click);
+            // 
+            // gridAlignmentToolStripMenuItem
+            // 
+            this.gridAlignmentToolStripMenuItem.Name = "gridAlignmentToolStripMenuItem";
+            this.gridAlignmentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridAlignmentToolStripMenuItem.Text = "Grid alignment";
+            this.gridAlignmentToolStripMenuItem.Click += new System.EventHandler(this.gridAlignmentToolStripMenuItem_Click);
+            // 
+            // snapToGridToolStripMenuItem
+            // 
+            this.snapToGridToolStripMenuItem.CheckOnClick = true;
+            this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.snapToGridToolStripMenuItem.Text = "Snap to grid";
+            this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
+            // 
+            // gridSettingsToolStripMenuItem
+            // 
+            this.gridSettingsToolStripMenuItem.Name = "gridSettingsToolStripMenuItem";
+            this.gridSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridSettingsToolStripMenuItem.Text = "Grid settings";
+            this.gridSettingsToolStripMenuItem.Click += new System.EventHandler(this.gridSettingsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -669,6 +716,11 @@ namespace paint
         public System.Windows.Forms.ToolStripMenuItem pasteToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem copyInMetafileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem getGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gridSettingsToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem gridAlignmentToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
     }
 }
 

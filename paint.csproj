@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClipboardMetafileHelper.cs" />
+    <Compile Include="GridDistanceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GridDistanceDialog.Designer.cs">
+      <DependentUpon>GridDistanceDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="SaveClass.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="Figure\Figure.cs" />
@@ -90,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSize.resx">
       <DependentUpon>FormSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridDistanceDialog.resx">
+      <DependentUpon>GridDistanceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LineWidthDialog.resx">
       <DependentUpon>LineWidthDialog.cs</DependentUpon>
