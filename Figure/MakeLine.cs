@@ -19,6 +19,8 @@ namespace paint
             pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
             g.DrawCurve(pen, p);
 
+            point1 = p[0];
+            point2 = p[p.Length - 1];
         }
 
         public override void DrawDash(Graphics g) // метод создания пунктирной фигуры
@@ -60,6 +62,9 @@ namespace paint
         public override void Change(int w, int h)
         {
             for (int i = 0; i <= points.Count - 1; i++) points[i] = new Point(points[i].X + w, points[i].Y + h);
+
+            point1 = points[0];
+            point2 = points[points.Count - 1];
         }
 
         public override bool checkZone(Point p, int width, int height)
@@ -106,8 +111,41 @@ namespace paint
 
             for (int k = 1; k < points.Count; k++)
             {
-                points[k] = new Point(points[k].X + x, points[k].Y + y);
+                points[k] = new Point(points[k].X - x, points[k].Y - y);
             }
+        }
+
+        public override int[] ChangeFigure()
+        {
+            int[] mas = {points[0].X - 3, points[0].Y - 3, points[points.Count - 1].X - 3, points[points.Count - 1].Y - 3 };
+            return mas;
+        }
+
+        public override void Change(int x1, int y1, int x2, int y2, Color color, Color Cbackground, int lineWidth, string text, Font font)
+        {
+            Point p1, p2;
+            p1 = new Point(x1, y1);
+            p2 = new Point(x2, y2);
+
+            int i1 = points[0].X - p1.X, i2 = points[0].Y - p1.Y;
+            int i3 = p2.X - points[points.Count - 1].X - i1, i4 = p2.Y - points[points.Count - 1].Y - i2;
+
+
+            for (int i = 1; i != points.Count - 1; i++)
+            {
+                float t = (float)i / points.Count - 1;
+                points[i] = new Point(points[i].X - i1 - (int)Math.Round(t * i3), points[i].Y - i2 - (int)Math.Round(t * i4));
+            }
+
+
+                points[0] = p1;
+            points[points.Count - 1] = p2;
+
+            point1 = p1;
+            point2 = p2;
+
+            this.color = color;
+            this.lineWidth = lineWidth;
         }
     }
 }

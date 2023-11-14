@@ -9,7 +9,7 @@ namespace paint
     {
         public Point point1, point2;
         public List<Point> points;
-        public String text;
+        public string text;
         public Font font;
         public Color color;
         public Color Cbackground;
@@ -39,7 +39,7 @@ namespace paint
             this.lineWidth = lineWidth;
         }
 
-        public Figure(Point point1, Point point2, String text, Color color, Font font)
+        public Figure(Point point1, Point point2, string text, Color color, Font font)
         {
             this.point1 = point1;
             this.point2 = point2;
@@ -56,5 +56,7 @@ namespace paint
         public abstract bool checkZone(Point p,int width, int height);
         public abstract void ChangeZero();
         public abstract void GridChange();
+        public abstract int[] ChangeFigure();
+        public abstract void Change(int x1, int y1, int x2, int y2, Color color, Color Cbackground, int lineWidth, string text, Font font);
     }
 }

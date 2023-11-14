@@ -37,7 +37,7 @@ namespace paint
         public static void Delete(Form2 f)
         {
             DeleteList(f);
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
 
         public static void Copy(Form2 f)
@@ -70,7 +70,7 @@ namespace paint
                     f.array.Add(fig);
                 }
             }
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
 
         public static void Cut(Form2 f)
@@ -80,7 +80,7 @@ namespace paint
                 Clipboard.SetData(formatname, f.changeArray);
                 DeleteList(f);
             }
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
 
         public static void CopyInMetafile(Form2 f)
@@ -97,12 +97,12 @@ namespace paint
             }
             f.get_g().ReleaseHdc(dc);
             f.get_g().Dispose();
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
 
         public static void Grid(Form2 f)
         {
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
 
         public static void GridAlignment(Form2 f)
@@ -111,7 +111,7 @@ namespace paint
             {
                 a.GridChange();
             }
-            f.picture.Invalidate();
+            f.get_pb().Invalidate();
         }
     }
 }

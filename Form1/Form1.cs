@@ -102,8 +102,19 @@ namespace paint
             colorDialog1.ShowHelp = true;
             if (colorDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
-            Data.color = colorDialog1.Color;
-            ColorLabel.BackColor = Data.color;
+
+            if (Data.doubleClickflag)
+            {
+                Data.changeFigure.Change(Data.changeFigure.point1.X, Data.changeFigure.point1.Y, Data.changeFigure.point2.X,
+                                         Data.changeFigure.point2.Y, colorDialog1.Color, Data.changeFigure.Cbackground,
+                                         Data.changeFigure.lineWidth, Data.changeFigure.text, Data.changeFigure.font);
+                ToolsComands.Grid((Form2)ActiveMdiChild);
+            }
+            else
+            {
+                Data.color = colorDialog1.Color;
+                ColorLabel.BackColor = Data.color;
+            }
         }
 
         private void backgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -114,10 +125,24 @@ namespace paint
                 colorDialog1.ShowHelp = true;
                 if (colorDialog1.ShowDialog() == DialogResult.Cancel)
                     return;
-                Data.background = colorDialog1.Color;
-                backgroundColorToolStripMenuItem.Checked = true;
-                BackgroundLabel.BackColor = Data.background;
-                LineBacgroundButton.CheckState = CheckState.Checked;
+                if (Data.doubleClickflag && Data.changeFigure != null)
+                {
+                    if (Data.changeFigure.ToString() == "paint.MakeRectangle" || Data.changeFigure.ToString() == "paint.MakeEllipse" ||
+                    Data.changeFigure.ToString() == "paint.MakeText")
+                    {
+                        Data.changeFigure.Change(Data.changeFigure.point1.X, Data.changeFigure.point1.Y, Data.changeFigure.point2.X,
+                                                 Data.changeFigure.point2.Y, Data.changeFigure.color, colorDialog1.Color,
+                                                 Data.changeFigure.lineWidth, Data.changeFigure.text, Data.changeFigure.font);
+                        ToolsComands.Grid((Form2)ActiveMdiChild);
+                    }
+                }
+                else
+                {
+                    Data.background = colorDialog1.Color;
+                    backgroundColorToolStripMenuItem.Checked = true;
+                    BackgroundLabel.BackColor = Data.background;
+                    LineBacgroundButton.CheckState = CheckState.Checked;
+                }
             }
             else
             {
@@ -132,8 +157,19 @@ namespace paint
         {
             lineWidthDialog lwd = new lineWidthDialog();
             if (lwd.ShowDialog() == DialogResult.Cancel) return;
-            Data.lineWidth = lwd.width();
-            LineWidthLabel.Text = "Line width - " + Data.lineWidth;
+
+            if (Data.doubleClickflag)
+            {
+                Data.changeFigure.Change(Data.changeFigure.point1.X, Data.changeFigure.point1.Y, Data.changeFigure.point2.X,
+                                         Data.changeFigure.point2.Y, Data.changeFigure.color, Data.changeFigure.Cbackground,
+                                         lwd.width(), Data.changeFigure.text, Data.changeFigure.font);
+                ToolsComands.Grid((Form2)ActiveMdiChild);
+            }
+            else
+            {
+                Data.lineWidth = lwd.width();
+                LineWidthLabel.Text = "Line width - " + Data.lineWidth;
+            }
         }
 
         private void optionsTool(Form2 f)
@@ -184,22 +220,36 @@ namespace paint
 
         private void textSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!textSettingsToolStripMenuItem.Checked)
+            if (Data.doubleClickflag && Data.changeFigure != null)
             {
-                if (fontDialog1.ShowDialog() == DialogResult.Cancel) return;
-                Data.font = fontDialog1.Font;
-                textSettingsToolStripMenuItem.Checked = true;
-                TextSettingsButton.CheckState = CheckState.Checked;
+                if(Data.changeFigure.ToString() == "paint.MakeText")
+                {
+                    if (fontDialog1.ShowDialog() == DialogResult.Cancel) return;
+                    Data.changeFigure.Change(Data.changeFigure.point1.X, Data.changeFigure.point1.Y, Data.changeFigure.point2.X,
+                                             Data.changeFigure.point2.Y, Data.changeFigure.color, Data.changeFigure.Cbackground,
+                                             Data.changeFigure.lineWidth, Data.changeFigure.text, fontDialog1.Font);
+                    ToolsComands.Grid((Form2)ActiveMdiChild);
+                }
             }
             else
             {
-                Data.font = DefaultFont;
-                textSettingsToolStripMenuItem.Checked = false;
-                TextSettingsButton.CheckState = CheckState.Unchecked;
-            }
+                if (!textSettingsToolStripMenuItem.Checked)
+                {
+                    if (fontDialog1.ShowDialog() == DialogResult.Cancel) return;
+                    Data.font = fontDialog1.Font;
+                    textSettingsToolStripMenuItem.Checked = true;
+                    TextSettingsButton.CheckState = CheckState.Checked;
+                }
+                else
+                {
+                    Data.font = DefaultFont;
+                    textSettingsToolStripMenuItem.Checked = false;
+                    TextSettingsButton.CheckState = CheckState.Unchecked;
+                }
 
-            FontTextLabel.Text = Data.font.Name;
-            TextWidthLabel.Text = "Text width - " + Data.font.Size;
+                FontTextLabel.Text = Data.font.Name;
+                TextWidthLabel.Text = "Text width - " + Data.font.Size;
+            }
         }
 
         private void gridSettingsToolStripMenuItem_Click(object sender, EventArgs e)

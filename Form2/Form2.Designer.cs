@@ -29,23 +29,8 @@ namespace paint
         /// </summary>
         private void InitializeComponent()
         {
-            this.picture = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // picture
-            // 
-            this.picture.BackColor = System.Drawing.Color.White;
-            this.picture.Location = new System.Drawing.Point(0, 0);
-            this.picture.Name = "picture";
-            this.picture.Size = new System.Drawing.Size(100, 50);
-            this.picture.TabIndex = 0;
-            this.picture.TabStop = false;
-            this.picture.Paint += new System.Windows.Forms.PaintEventHandler(this.Form2_Paint);
-            this.picture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseDown);
-            this.picture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseMove);
-            this.picture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseUp);
             // 
             // textBox1
             // 
@@ -68,21 +53,18 @@ namespace paint
             this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.picture);
             this.Name = "Form2";
             this.Text = "Form2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);
+            this.ResizeBegin += new System.EventHandler(this.Form2_ResizeBegin);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form2_KeyUp);
-            ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        public System.Windows.Forms.PictureBox picture;
         private System.Windows.Forms.TextBox textBox1;
     }
 }

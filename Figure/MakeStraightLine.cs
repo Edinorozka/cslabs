@@ -90,5 +90,24 @@ namespace paint
             if (i >= j) point2.Y -= j;
             else point2.Y += i;
         }
+
+        public override int[] ChangeFigure()
+        {
+            int[] mas = {point1.X - 3, point1.Y - 3, point2.X - 3, point2.Y - 3};
+            return mas;
+        }
+
+        public override void Change(int x1, int y1, int x2, int y2, Color color, Color Cbackground, int lineWidth, string text, Font font)
+        {
+            Point p1, p2;
+            p1 = new Point(x1, y1);
+            p2 = new Point(x2, y2);
+
+            point1 = p1;
+            point2 = p2;
+
+            this.color = color;
+            this.lineWidth = lineWidth;
+        }
     }
 }

@@ -15,11 +15,11 @@ namespace paint
         }
 
         public static Figures figures = Figures.rectangle;
-        public static Figure figure;
+        public static Figure figure, changeFigure;
         public static int lineWidth = 1, gridDistance = 10;
         public static Color color = Color.Black;
         public static Color background;
         public static Font font = System.Windows.Forms.Control.DefaultFont;
-        public static bool snapToGrig = false;
+        public static bool snapToGrig = false, doubleClickflag = false;
     }
 }
