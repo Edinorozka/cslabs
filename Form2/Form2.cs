@@ -98,6 +98,7 @@ namespace paint
                 ((Form1)ParentForm).pasteToolStripMenuItem.Enabled = false;
                 ((Form1)ParentForm).cutToolStripMenuItem.Enabled = false;
                 ((Form1)ParentForm).copyInMetafileToolStripMenuItem.Enabled = false;
+                ((Form1)ParentForm).imageEditorToolStripMenuItem.Enabled = false;
             }
             saveFlag = false;
         }

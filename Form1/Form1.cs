@@ -27,6 +27,7 @@ namespace paint
             f.Show();
             saveAsToolStripMenuItem.Enabled = true;
             SaveAsButton.Enabled = true;
+            imageEditorToolStripMenuItem.Enabled = true;
         }
 
         public void save(Form2 f)
@@ -276,7 +277,17 @@ namespace paint
             }
         }
 
-        private void rectangleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void imageEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImageEditor Ie = new ImageEditor((Form2)ActiveMdiChild);
+            if (Ie.ShowDialog() == DialogResult.OK)
+            {
+                ToolsComands.Grid((Form2)ActiveMdiChild);
+                return;
+            }
+            }
+
+            private void rectangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Data.figures = Data.Figures.rectangle;
             backgroundColorToolStripMenuItem.Visible = true;

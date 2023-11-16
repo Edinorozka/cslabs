@@ -61,6 +61,7 @@ namespace paint
             this.gridAlignmentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.snapToGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
@@ -269,7 +270,8 @@ namespace paint
             this.pasteToolStripMenuItem,
             this.cutToolStripMenuItem,
             this.copyInMetafileToolStripMenuItem,
-            this.gridToolStripMenuItem});
+            this.gridToolStripMenuItem,
+            this.imageEditorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -342,14 +344,14 @@ namespace paint
             // 
             this.getGridToolStripMenuItem.CheckOnClick = true;
             this.getGridToolStripMenuItem.Name = "getGridToolStripMenuItem";
-            this.getGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getGridToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.getGridToolStripMenuItem.Text = "Get grid";
             this.getGridToolStripMenuItem.Click += new System.EventHandler(this.getGridToolStripMenuItem_Click);
             // 
             // gridAlignmentToolStripMenuItem
             // 
             this.gridAlignmentToolStripMenuItem.Name = "gridAlignmentToolStripMenuItem";
-            this.gridAlignmentToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridAlignmentToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.gridAlignmentToolStripMenuItem.Text = "Grid alignment";
             this.gridAlignmentToolStripMenuItem.Click += new System.EventHandler(this.gridAlignmentToolStripMenuItem_Click);
             // 
@@ -357,16 +359,26 @@ namespace paint
             // 
             this.snapToGridToolStripMenuItem.CheckOnClick = true;
             this.snapToGridToolStripMenuItem.Name = "snapToGridToolStripMenuItem";
-            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.snapToGridToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.snapToGridToolStripMenuItem.Text = "Snap to grid";
             this.snapToGridToolStripMenuItem.Click += new System.EventHandler(this.snapToGridToolStripMenuItem_Click);
             // 
             // gridSettingsToolStripMenuItem
             // 
             this.gridSettingsToolStripMenuItem.Name = "gridSettingsToolStripMenuItem";
-            this.gridSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridSettingsToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.gridSettingsToolStripMenuItem.Text = "Grid settings";
             this.gridSettingsToolStripMenuItem.Click += new System.EventHandler(this.gridSettingsToolStripMenuItem_Click);
+            // 
+            // imageEditorToolStripMenuItem
+            // 
+            this.imageEditorToolStripMenuItem.Enabled = false;
+            this.imageEditorToolStripMenuItem.Name = "imageEditorToolStripMenuItem";
+            this.imageEditorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.imageEditorToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.imageEditorToolStripMenuItem.Text = "Image Editor";
+            this.imageEditorToolStripMenuItem.Click += new System.EventHandler(this.imageEditorToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -709,7 +721,6 @@ namespace paint
         private System.Windows.Forms.ToolStripStatusLabel TextWidthLabel;
         private System.Windows.Forms.ToolStripButton ChangeButton;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem changeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         public System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
@@ -721,6 +732,8 @@ namespace paint
         private System.Windows.Forms.ToolStripMenuItem gridSettingsToolStripMenuItem;
         public System.Windows.Forms.ToolStripMenuItem gridAlignmentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem snapToGridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem imageEditorToolStripMenuItem;
     }
 }
 
